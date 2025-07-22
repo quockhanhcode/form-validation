@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStudent, getStudentByID } from "../store/StudentReducer";
 
-export default function ListStudent() {
+export default function ListStudent(props) {
+  const { setShowBtn } = props;
+
   const listStudent = useSelector((state) => state.student.listData);
   const dispatch = useDispatch();
+  useEffect(() => {
+    setShowBtn;
+  }, [setShowBtn]);
+  const handleEdit = (item) => {
+    dispatch(getStudentByID(item));
+    setShowBtn(false);
+  };
   return (
     <div className="relative overflow-x-auto mt-8">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -50,7 +59,8 @@ export default function ListStudent() {
                     Xóa
                   </button>
                   <button
-                    onClick={() => dispatch(getStudentByID(item))}
+                    onClick={() => handleEdit(item)}
+                    id="edit-btn"
                     type="button"
                     className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
                   >

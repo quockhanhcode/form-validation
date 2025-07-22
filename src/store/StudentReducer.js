@@ -19,11 +19,20 @@ const StudentSlice = createSlice({
     getStudentByID: (state, action) => {
       state.editStudent = action.payload;
     },
+    updateStudent: (state, action) => {
+      const updateStudent = action.payload;
+      const index = state.listData.findIndex(
+        (item) => item.id === updateStudent.id
+      );
+      if (index !== -1) {
+        state.listData[index] = updateStudent;
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addStudent, deleteStudent, getStudentByID } =
+export const { addStudent, deleteStudent, getStudentByID, updateStudent } =
   StudentSlice.actions;
 
 export default StudentSlice.reducer;

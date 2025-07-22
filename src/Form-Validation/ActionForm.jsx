@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addStudent } from "../store/StudentReducer";
+import { addStudent, updateStudent } from "../store/StudentReducer";
 
-export default function ActionForm() {
+export default function ActionForm(props) {
+  const { showBtn, setShowEdit } = props;
   const dispatch = useDispatch();
   const getStudentById = useSelector((state) => state.student.editStudent);
 
@@ -33,7 +34,13 @@ export default function ActionForm() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addStudent(state.values));
+
+    if (showBtn) {
+      dispatch(addStudent(state.values));
+    } else {
+      dispatch(updateStudent(state.values));
+      setShowEdit(true);
+    }
     setState({
       values: {
         id: "",
@@ -80,6 +87,7 @@ export default function ActionForm() {
             <input
               onChange={handleOnchange}
               value={state.values.id}
+              disabled={!showBtn}
               //   onBlur={handleError}
               name="id"
               type="text"
@@ -134,12 +142,23 @@ export default function ActionForm() {
             />
           </div>
         </div>
-        <button
-          type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Thêm sinh viên
-        </button>
+        <div className="group-button">
+          {showBtn ? (
+            <button
+              type="submit"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Thêm sinh viên
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Cập Nhật
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );
