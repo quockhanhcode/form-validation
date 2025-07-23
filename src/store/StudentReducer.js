@@ -10,7 +10,13 @@ const StudentSlice = createSlice({
   initialState,
   reducers: {
     addStudent: (state, action) => {
-      state.listData.push(action.payload);
+      // state.listData.push(action.payload);
+      const exit = state.listData.some((item) => item.id === action.payload.id);
+      if (!exit) {
+        state.listData.push(action.payload);
+      } else {
+        alert(`ID ${action.payload.id} đã tồn tại`);
+      }
     },
     deleteStudent: (state, action) => {
       const student = action.payload;
@@ -28,6 +34,13 @@ const StudentSlice = createSlice({
         state.listData[index] = updateStudent;
       }
     },
+    // searchStudent: (state, action) => {
+    //   console.log(action);
+    //   const keyword = action.payload?.toLowerCase() || "";
+    //   state.listData = state.listData.filter((item) =>
+    //     item.name?.toLowerCase().includes(keyword)
+    //   );
+    // },
   },
 });
 

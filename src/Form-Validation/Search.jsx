@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { searchStudent } from "../store/StudentReducer";
 
 export default function Search() {
+  const dispatch = useDispatch();
+  const listStudent = useSelector((state) => state.student.listData);
+  const [valueSearch, setValueSearch] = useState("");
+  const handleSearch = (e) => {
+    setValueSearch(e.target.value);
+    dispatch(searchStudent(listStudent.name));
+  };
+  // console.log(valueSearch);
+
   return (
     <form className="max-w-md mx-auto">
       <label
@@ -28,11 +39,12 @@ export default function Search() {
           </svg>
         </div>
         <input
+          onChange={handleSearch}
+          value={valueSearch}
           type="search"
           id="default-search"
           className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search Mockups, Logos..."
-          required
         />
         <button
           type="submit"
