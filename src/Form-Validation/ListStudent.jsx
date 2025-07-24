@@ -6,6 +6,7 @@ export default function ListStudent(props) {
   const { setShowBtn } = props;
 
   const listStudent = useSelector((state) => state.student.listData);
+  const keyword = useSelector((state) => state.student.searchKeyword);
   const dispatch = useDispatch();
   useEffect(() => {
     setShowBtn;
@@ -14,6 +15,9 @@ export default function ListStudent(props) {
     dispatch(getStudentByID(item));
     setShowBtn(false);
   };
+  const filterStudent = listStudent.filter((item) =>
+    item.name?.toLowerCase().includes(keyword.toLowerCase())
+  );
   return (
     <div className="relative overflow-x-auto mt-8">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -35,7 +39,7 @@ export default function ListStudent(props) {
           </tr>
         </thead>
         <tbody>
-          {listStudent.map((item) => {
+          {filterStudent.map((item) => {
             return (
               <tr
                 key={item.id}
