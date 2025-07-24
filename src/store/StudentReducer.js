@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   listData: [],
   editStudent: null,
+  originalListData: [], // To keep the original list for search functionality
 };
 
 const StudentSlice = createSlice({
@@ -41,11 +42,32 @@ const StudentSlice = createSlice({
     //     item.name?.toLowerCase().includes(keyword)
     //   );
     // },
+    searchStudent: (state, action) => {
+      const keyword = action.payload?.toLowerCase() || "";
+
+      // Nếu chưa lưu bản gốc thì lưu lần đầu tiên
+      if (state.originalListData.length === 0) {
+        state.originalListData = state.listData;
+      }
+      // Nếu ô search trống, trả lại toàn bộ danh sách
+      if (!keyword) {
+        state.listData = state.originalListData;
+      } else {
+        state.listData = state.originalListData.filter((item) =>
+          item.name?.toLowerCase().includes(keyword)
+        );
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addStudent, deleteStudent, getStudentByID, updateStudent } =
-  StudentSlice.actions;
+export const {
+  addStudent,
+  deleteStudent,
+  getStudentByID,
+  updateStudent,
+  searchStudent,
+} = StudentSlice.actions;
 
 export default StudentSlice.reducer;

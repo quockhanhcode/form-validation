@@ -4,11 +4,10 @@ import { searchStudent } from "../store/StudentReducer";
 
 export default function Search() {
   const dispatch = useDispatch();
-  const listStudent = useSelector((state) => state.student.listData);
   const [valueSearch, setValueSearch] = useState("");
   const handleSearch = (e) => {
     setValueSearch(e.target.value);
-    dispatch(searchStudent(listStudent.name));
+    dispatch(searchStudent(e.target.value));
   };
   // console.log(valueSearch);
 
